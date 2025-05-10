@@ -1,0 +1,22 @@
+# ---------------------------
+# Mac Generated Files
+# ---------------------------
+.DS_Store
+
+# ---------------------------
+# Development Environment
+# ---------------------------
+.env
+rb-env/
+
+# ---------------------
+# Python Cache and Compiled Files
+# ---------------------
+__pycache__/
+*.py[cod]
+*.pyo
+
+# ---------------------
+# Cython Cache Files
+# ---------------------
+*.cpython-*
