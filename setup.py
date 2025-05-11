@@ -1,57 +1,36 @@
-import os
-import shutil
-import stat
-
+from setuptools import setup, find_packages
 from pathlib import Path
-from setuptools import setup
-from setuptools.command.install import install
 
+# Read the long description from README.md
+readme_path = Path(__file__).parent / "README.md"
+long_description = readme_path.read_text(encoding="utf-8")
 
-class PostInstallCommand(install):
-    """Custom install command to install git hooks automatically."""
-
-    def run(self) -> None:
-        install.run(self)  # Run the regular install first
-
-        try:
-            git_dir: Path = self.find_git_root()
-            hooks_dir: Path = git_dir / ".git" / "hooks"
-
-            hook_templates: Path = Path(
-                __file__
-            ).parent / "src" / "readme_builder" / "templates" / "git_hooks"
-            for hook_name in ["pre-commit", "pre-push"]:
-                src_hook: Path = hook_templates / hook_name
-                dest_hook: Path = hooks_dir / hook_name
-
-                if not dest_hook.exists():
-                    shutil.copy(src_hook, dest_hook)
-                    os.chmod(
-                        dest_hook, os.stat(dest_hook).st_mode | stat.S_IEXEC
-                    )
-                    print(f"Installed {hook_name} hook.")
-                else:
-                    print(f"{hook_name} hook already exists. Skipping...")
-
-        except Exception as e:
-            print(f"Failed to install Git hooks: {e}")
-
-    def find_git_root(self) -> Path:
-        current = Path.cwd().resolve()
-        for parent in [current] + list(current.parents):
-            if (parent / ".git").exists():
-                return parent
-        raise RuntimeError("Not inside a Git repository.")
-
+# Read install requirements
+reqs_path = Path(__file__).parent / "reqs.txt"
+install_requires = reqs_path.read_text(encoding="utf-8").splitlines()
 
 setup(
-    name="readme-builder",
+    name="markdowner",
     version="0.1.0",
-    packages=["readme_builder"],
+    description="A Python package to automate your README.md builds.",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    author="James Reeves",
+    author_email="james@codebrojim.com",
+    url="https://github.com/CodeBroJim/markdowner",  # update if real
+    packages=find_packages(where="src"),
     package_dir={"": "src"},
     include_package_data=True,
-    cmdclass={
-        'install': PostInstallCommand,
+    install_requires=install_requires,
+    entry_points={
+        "console_scripts": [
+            "md=readme_builder.main:cli",  # maps `md` to `cli()` in main.py
+        ]
     },
-    # other setup metadata here
+    classifiers=[
+        "Programming Language :: Python :: 3.9",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires=">=3.7",
 )

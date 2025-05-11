@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo "Auto-committing updates to the README.md file..."
+
+# Add README
+git add README.md 2>/dev/null || true
+
+# Commit it (only if there are changes)
+git commit -m "Auto-updated README.md before push" || echo "No changes to commit."
+
+echo "README.md has been committed (if updated)."

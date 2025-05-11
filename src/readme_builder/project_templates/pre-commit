@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# --------------------------------
+# Automate README Build
+# --------------------------------
+echo "Auto-building README.md..."
+
+# Set the project root as PYTHONPATH so Python can find src/
+export PYTHONPATH="$(git rev-parse --show-toplevel)"
+
+python3 -c "\\
+    from utility_scripts.repo_utils import RepositoryUtilities; \\
+    RepositoryUtilities().build_readme()"
+
+git add README.md 2>/dev/null || true
+
+echo "README.md built and staged."
