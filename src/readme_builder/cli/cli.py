@@ -10,11 +10,11 @@ class ReadmeBuilderCLI:
         builder.build_readme()
 
     @staticmethod
-    def generate_pre_commit():
+    def get_static_pre_commit():
         git_helper: GitSetupGenerator = GitSetupGenerator()
         git_helper.get_pre_commit_template()
 
     @staticmethod
-    def generate_pre_push():
+    def get_static_pre_push():
         git_helper: GitSetupGenerator = GitSetupGenerator()
         git_helper.get_pre_push_template()

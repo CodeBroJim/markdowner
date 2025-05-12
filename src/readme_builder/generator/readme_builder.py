@@ -1,3 +1,5 @@
+import os
+
 from pathlib import Path
 from typing import List
 
@@ -7,13 +9,15 @@ class ReadmeBuilder:
     Builds user's project level README.md file using a templates directory
     and user generated markdown files.
     """
-    def __init__(
-        self,
-        output_path: Path = Path("README.md"),
-    ):
-        self.project_root = self.find_project_root()
-        self.template_path = self.project_root / "templates" / "main.md"
-        self.output_path = output_path or self.project_root / "README.md"
+    # def __init__(
+    #     self,
+    #     output_path: Path = Path("README.md"),
+    # ):
+    #     self.project_root = self.find_project_root()
+    #     self.template_path = self.project_root / "templates" / "main.md"
+    #     self.output_path = output_path or self.project_root / "README.md"
+    def __init__(self) -> None:
+        super().__init__()
 
     def find_project_root(
             start: Path = Path.cwd(),
@@ -53,7 +57,7 @@ class ReadmeBuilder:
 
         return output_lines
 
-    def build_readme(self):
+    def build_readme(self) -> None:
         if not self.template_path.exists():
             raise FileNotFoundError(
                 f"README template not found: {self.template_path}"
@@ -64,3 +68,7 @@ class ReadmeBuilder:
 
         self.output_path.write_text("\n".join(final_content))
         print(f"README built at: {self.output_path}")
+
+    def create_templates_dir(self) -> None:
+        if not self.user_templates.exists():
+            os.makedirs(self.user_templates)

@@ -6,6 +6,9 @@ from typing import List
 
 
 class BaseClass:
+    """
+    Contains functions shared acrosss multiple classes in the project.
+    """
     def __init__(self, output_path: Path = Path("README.md")):
         self.project_root: Path = self.find_project_root()
         self.templates: Path = self.project_root / "project_templates"
@@ -30,7 +33,7 @@ class BaseClass:
     def get_template_file(self, template_name: str) -> None:
         """
         Moves the static template file (pre-commit or pre-push) from the
-        `project_templates` folder into the user's templates folder.
+        `project_templates` directory into the user's `templates` directory.
         """
 
         template: Path = self.templates / template_name
