@@ -1,4 +1,4 @@
-from src.readme_builder.generator.readme_builder import ReadmeBuilder
+from src.readme_builder.builder.readme_builder import ReadmeBuilder
 from src.readme_builder.utilities.git_setup_generator import GitSetupGenerator
 
 

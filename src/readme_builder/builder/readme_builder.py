@@ -3,35 +3,18 @@ import os
 from pathlib import Path
 from typing import List
 
+from src.readme_builder.utilities.base_class import BaseClass
 
-class ReadmeBuilder:
+
+class ReadmeBuilder(BaseClass):
     """
     Builds user's project level README.md file using a templates directory
     and user generated markdown files.
     """
-    # def __init__(
-    #     self,
-    #     output_path: Path = Path("README.md"),
-    # ):
-    #     self.project_root = self.find_project_root()
-    #     self.template_path = self.project_root / "templates" / "main.md"
-    #     self.output_path = output_path or self.project_root / "README.md"
+
     def __init__(self) -> None:
         super().__init__()
-
-    def find_project_root(
-            start: Path = Path.cwd(),
-            markers: List[str] = [".git", "pyproject.toml", "README.md"]
-    ) -> Path:
-        current: Path = start.resolve()
-
-        for parent in [current] + list(current.parents):
-            if any((parent / marker).exists() for marker in markers):
-                return parent
-
-        raise RuntimeError(
-            "Could not determine project root from: {}".format(current)
-        )
+        self.template_path: Path = self.user_templates / "main.md"
 
     def _parse_include_line(self, line: str) -> str:
         """Extract the relative include path from the comment line."""

@@ -20,9 +20,3 @@ class GitSetupGenerator(BaseClass):
 
     def get_pre_push_template(self) -> None:
         self.get_template_file(template_name="pre-push")
-
-    def generate_pre_commit(self) -> None:
-        pass
-
-    def generate_pre_push(self) -> None:
-        pass
