@@ -17,20 +17,20 @@ setup(
     long_description_content_type="text/markdown",
     author="James Reeves",
     author_email="james@codebrojim.com",
-    url="https://github.com/CodeBroJim/markdowner",  # update if real
+    url="https://github.com/CodeBroJim/markdowner",
     packages=find_packages(where="src"),
-    package_dir={"": "src"},
+    package_dir={"": "readme_builder"},
     include_package_data=True,
     install_requires=install_requires,
     entry_points={
         "console_scripts": [
-            "md=readme_builder.main:cli",  # maps `md` to `cli()` in main.py
+            "md=readme_builder.main:cli",
         ]
     },
     classifiers=[
         "Programming Language :: Python :: 3.9",
-        "License :: OSI Approved :: MIT License",
+        "License :: Other/Proprietary License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.7",
+    python_requires=">=3.12",
 )
