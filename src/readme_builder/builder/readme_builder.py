@@ -1,33 +1,22 @@
+import tomllib
+
+
+from jinja2 import Template
 from pathlib import Path
-from typing import List
+from typing import Dict, List
+
+from src.readme_builder.utilities.base_class import BaseClass
 
 
-class ReadmeBuilder:
+class ReadmeBuilder(BaseClass):
     """
     Builds user's project level README.md file using a templates directory
     and user generated markdown files.
     """
-    def __init__(
-        self,
-        output_path: Path = Path("README.md"),
-    ):
-        self.project_root = self.find_project_root()
-        self.template_path = self.project_root / "templates" / "main.md"
-        self.output_path = output_path or self.project_root / "README.md"
 
-    def find_project_root(
-            start: Path = Path.cwd(),
-            markers: List[str] = [".git", "pyproject.toml", "README.md"]
-    ) -> Path:
-        current: Path = start.resolve()
-
-        for parent in [current] + list(current.parents):
-            if any((parent / marker).exists() for marker in markers):
-                return parent
-
-        raise RuntimeError(
-            "Could not determine project root from: {}".format(current)
-        )
+    def __init__(self) -> None:
+        super().__init__()
+        self.template_path: Path = self.user_templates / "main.md"
 
     def _parse_include_line(self, line: str) -> str:
         """Extract the relative include path from the comment line."""
@@ -53,14 +42,42 @@ class ReadmeBuilder:
 
         return output_lines
 
-    def build_readme(self):
+    def _load_context(self) -> dict:
+        context_file: Path = self.user_templates / "context.toml"
+
+        if not context_file.exists():
+            print("No context.toml found. Using default context.")
+            return {}
+
+        with context_file.open("rb") as f:
+            return tomllib.load(f)
+
+    def create_context_file(self):
+        context_path: Path = self.user_templates / "context.toml"
+
+        if not context_path.exists():
+            self.user_templates.mkdir(exist_ok=True)
+            context_path.write_text(
+                'project_name = "Markdowner"\n'
+                'author = "Your Name"\n'
+                'description = "A modular markdown tool."\n'
+            )
+        else:
+            print(f"context.toml already exists at: {context_path}")
+
+    def build_readme(self) -> None:
         if not self.template_path.exists():
             raise FileNotFoundError(
                 f"README template not found: {self.template_path}"
             )
 
         lines: List[str] = self.template_path.read_text().splitlines()
-        final_content: List[str] = self._process_lines(lines)
+        processed_lines: List[str] = self._process_lines(lines)
+        joined_text: str = "\n".join(processed_lines)
+        context: Dict = self._load_context()
+        template: Template = Template(joined_text)
+        rendered: str = template.render(**context)
 
-        self.output_path.write_text("\n".join(final_content))
+        self.output_path.write_text(rendered)
+
         print(f"README built at: {self.output_path}")
