@@ -29,6 +29,10 @@ This command will:
 
 ---
 
+## Current State of Project
+1. Update logic in ReadmeBuilder to apply user's license to the readme; optionally by including the LICENSE file in their main.md template
+
+
 ## License
 
 To be added.
