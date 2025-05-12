@@ -1,7 +1,9 @@
-import os
+import tomllib
 
+
+from jinja2 import Template
 from pathlib import Path
-from typing import List
+from typing import Dict, List
 
 from src.readme_builder.utilities.base_class import BaseClass
 
@@ -40,6 +42,29 @@ class ReadmeBuilder(BaseClass):
 
         return output_lines
 
+    def _load_context(self) -> dict:
+        context_file: Path = self.user_templates / "context.toml"
+
+        if not context_file.exists():
+            print("No context.toml found. Using default context.")
+            return {}
+
+        with context_file.open("rb") as f:
+            return tomllib.load(f)
+
+    def create_context_file(self):
+        context_path: Path = self.user_templates / "context.toml"
+
+        if not context_path.exists():
+            self.user_templates.mkdir(exist_ok=True)
+            context_path.write_text(
+                'project_name = "Markdowner"\n'
+                'author = "Your Name"\n'
+                'description = "A modular markdown tool."\n'
+            )
+        else:
+            print(f"context.toml already exists at: {context_path}")
+
     def build_readme(self) -> None:
         if not self.template_path.exists():
             raise FileNotFoundError(
@@ -47,11 +72,12 @@ class ReadmeBuilder(BaseClass):
             )
 
         lines: List[str] = self.template_path.read_text().splitlines()
-        final_content: List[str] = self._process_lines(lines)
+        processed_lines: List[str] = self._process_lines(lines)
+        joined_text: str = "\n".join(processed_lines)
+        context: Dict = self._load_context()
+        template: Template = Template(joined_text)
+        rendered: str = template.render(**context)
 
-        self.output_path.write_text("\n".join(final_content))
+        self.output_path.write_text(rendered)
+
         print(f"README built at: {self.output_path}")
-
-    def create_templates_dir(self) -> None:
-        if not self.user_templates.exists():
-            os.makedirs(self.user_templates)

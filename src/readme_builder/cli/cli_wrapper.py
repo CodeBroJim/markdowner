@@ -12,9 +12,10 @@ class ReadmeBuilderCLIWrapper:
         cli_instance: ReadmeBuilderCLI = ReadmeBuilderCLI()
 
         dispatch_map: Dict[str, Any] = {
+            "context": cli_instance.generate_context,
             "readme": cli_instance.generate_readme,
-            "pre-commit": cli_instance.generate_pre_commit,
-            "pre-push": cli_instance.generate_pre_push,
+            "pre-commit": cli_instance.get_static_pre_commit,
+            "pre-push": cli_instance.get_static_pre_push,
         }
 
         if target in dispatch_map:
@@ -28,7 +29,7 @@ class ReadmeBuilderCLIWrapper:
     @click.argument(
         "target",
         type=click.Choice(
-            ["readme", "pre-commit", "pre-push"],
+            ["context", "pre-commit", "pre-push", "readme",],
             case_sensitive=False
         )
     )

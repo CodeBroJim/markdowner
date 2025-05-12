@@ -6,9 +6,9 @@ This is helpful for when your project has modules with their own .md doc files a
 
 ---
 
-### CLI Classes
+### Markdowner CLI Classes
 
-1. ReadmeBuilderCLI
-2. ReadmeBuilderCLIWrapper
+1. `ReadmeBuilderCLI`
+2. `ReadmeBuilderCLIWrapper`
 
 ---
