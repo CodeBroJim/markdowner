@@ -28,13 +28,3 @@ This command will:
     - Compile the template and included Markdown files into a single `README.md` at the project root.
 
 ---
-
-## Current State of Project
-1. Update logic in ReadmeBuilder to apply user's license to the readme; optionally by including the LICENSE file in their main.md template
-
-
-## License
-
-To be added.
-
----
