@@ -11,7 +11,7 @@ reqs_path = Path(__file__).parent / "reqs.txt"
 install_requires = reqs_path.read_text(encoding="utf-8").splitlines()
 
 setup(
-    name="markdowner",
+    name="markdowner-test",
     version="0.1.0",
     description="\
         A Python package to automate your project/repo README file builds.\
