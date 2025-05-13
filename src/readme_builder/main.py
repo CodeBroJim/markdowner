@@ -1,6 +1,6 @@
 import click
 
-from src.readme_builder.cli.cli_wrapper import ReadmeBuilderCLIWrapper
+from readme_builder.cli.cli_wrapper import ReadmeBuilderCLIWrapper
 
 
 @click.group(invoke_without_command=True)

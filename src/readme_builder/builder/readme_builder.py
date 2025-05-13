@@ -5,7 +5,7 @@ from jinja2 import Template
 from pathlib import Path
 from typing import Dict, List
 
-from src.readme_builder.utilities.base_class import BaseClass
+from readme_builder.utilities.base_class import BaseClass
 
 
 class ReadmeBuilder(BaseClass):

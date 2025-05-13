@@ -12,7 +12,7 @@ install_requires = reqs_path.read_text(encoding="utf-8").splitlines()
 
 setup(
     name="markdowner-test",
-    version="0.1.0",
+    version="0.1.2",
     description="\
         A Python package to automate your project/repo README file builds.\
     ",

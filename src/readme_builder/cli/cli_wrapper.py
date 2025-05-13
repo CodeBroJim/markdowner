@@ -2,7 +2,7 @@ import click
 
 from typing import Any, Dict
 
-from src.readme_builder.cli.cli import ReadmeBuilderCLI
+from readme_builder.cli.cli import ReadmeBuilderCLI
 
 
 class ReadmeBuilderCLIWrapper:
