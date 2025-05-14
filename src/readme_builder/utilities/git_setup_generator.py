@@ -1,6 +1,6 @@
 # from textwrap import dedent
 
-from src.readme_builder.utilities.base_class import BaseClass
+from readme_builder.utilities.base_class import BaseClass
 
 
 class GitSetupGenerator(BaseClass):

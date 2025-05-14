@@ -5,7 +5,7 @@ from jinja2 import Template
 from pathlib import Path
 from typing import Dict, List
 
-from src.readme_builder.utilities.base_class import BaseClass
+from readme_builder.utilities.base_class import BaseClass
 
 
 class ReadmeBuilder(BaseClass):
@@ -52,15 +52,13 @@ class ReadmeBuilder(BaseClass):
         with context_file.open("rb") as f:
             return tomllib.load(f)
 
-    def create_context_file(self):
+    def create_context_file(self) -> None:
         context_path: Path = self.user_templates / "context.toml"
 
         if not context_path.exists():
             self.user_templates.mkdir(exist_ok=True)
             context_path.write_text(
-                'project_name = "Markdowner"\n'
-                'author = "Your Name"\n'
-                'description = "A modular markdown tool."\n'
+                'project_name = "Your Project Name"\n'
             )
         else:
             print(f"context.toml already exists at: {context_path}")

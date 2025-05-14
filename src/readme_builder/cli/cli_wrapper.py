@@ -2,7 +2,7 @@ import click
 
 from typing import Any, Dict
 
-from src.readme_builder.cli.cli import ReadmeBuilderCLI
+from readme_builder.cli.cli import ReadmeBuilderCLI
 
 
 class ReadmeBuilderCLIWrapper:
@@ -13,9 +13,9 @@ class ReadmeBuilderCLIWrapper:
 
         dispatch_map: Dict[str, Any] = {
             "context": cli_instance.generate_context,
-            "readme": cli_instance.generate_readme,
             "pre-commit": cli_instance.get_static_pre_commit,
             "pre-push": cli_instance.get_static_pre_push,
+            "readme": cli_instance.generate_readme,
         }
 
         if target in dispatch_map:
